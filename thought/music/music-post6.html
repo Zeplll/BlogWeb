@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Journey - Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Music Player Styles */
+        .music-player-container {
+            max-width: 800px;
+            margin: var(--space-lg) auto;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+            border-radius: 20px;
+            padding: var(--space-lg);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .album-art {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin: 0 auto var(--space-md);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .album-art:hover img {
+            transform: scale(1.05);
+        }
+
+        .album-art-placeholder {
+            font-size: 80px;
+            color: white;
+            opacity: 0.5;
+        }
+
+        .track-info {
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .track-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            color: var(--color-deep-purple);
+            margin-bottom: var(--space-xs);
+        }
+
+        .track-artist {
+            font-size: var(--font-size-base);
+            color: var(--color-charcoal);
+            opacity: 0.7;
+        }
+
+        .progress-container {
+            margin: var(--space-md) 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar:hover {
+            height: 8px;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .progress-bar:hover .progress::after {
+            opacity: 1;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-sm);
+            color: var(--color-charcoal);
+            opacity: 0.6;
+            margin-top: var(--space-xs);
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.play-pause {
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        .control-btn.play-pause:hover {
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+        }
+
+        .volume-icon {
+            font-size: 20px;
+            color: var(--color-deep-purple);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 3px 12px rgba(99, 102, 241, 0.5);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .playlist-info {
+            text-align: center;
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            font-size: var(--font-size-sm);
+            color: var(--color-charcoal);
+            opacity: 0.6;
+        }
+
+        /* Audio visualization hint */
+        .audio-wave {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            margin: var(--space-md) 0;
+            height: 40px;
+            align-items: center;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: linear-gradient(to top, #6366f1, #ec4899);
+            border-radius: 2px;
+            animation: wave 1s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .wave-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 30px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 25px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 35px; animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { height: 20px; animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { height: 30px; animation-delay: 0.6s; }
+        .wave-bar:nth-child(8) { height: 15px; animation-delay: 0.7s; }
+
+        .music-player-container.playing .wave-bar {
+            opacity: 1;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+    </style>
+</head>
+<body class="page-post">
+    
+    <!-- Language Toggle Button -->
+    <a href="#" class="lang-toggle" aria-label="Toggle Language">EN</a>
+    
+    <!-- Artistic Navigation Constellation -->
+    <nav class="constellation-nav" aria-label="Main Navigation">
+        <div class="constellation-container">
+            <a href="../../index.html" class="star-link star-home" data-label="Home">
+                <span class="star-symbol">✦</span>
+                <span class="star-label">Home</span>
+            </a>
+            <div class="star-link star-thought dropdown-container" data-label="Thought">
+                <a href="../index.html" class="star-link-main">
+                    <span class="star-symbol">◉</span>
+                    <span class="star-label">Thought</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="../books/index.html" class="dropdown-item">Books</a>
+                    <a href="../movies/index.html" class="dropdown-item">Movies</a>
+                    <a href="../music/index.html" class="dropdown-item">Music</a>
+                    <a href="../games/index.html" class="dropdown-item">Games</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Traditional Post Layout -->
+    <article class="post-traditional">
+        <header class="post-traditional-header" data-scroll>
+            <h1 class="post-traditional-title" data-lang-en="Musical Journey" data-lang-cn="音乐之旅">Musical Journey</h1>
+            <div class="post-traditional-meta">
+                <span class="meta-date" data-lang-en="November 2025" data-lang-cn="2025年11月">November 2025</span>
+                <span class="meta-divider">◇</span>
+                <span class="meta-category" data-lang-en="Music" data-lang-cn="音乐">Music</span>
+            </div>
+        </header>
+
+        <!-- Music Player -->
+        <div class="music-player-container" id="musicPlayer" data-scroll>
+            <!-- Album Art -->
+            <div class="album-art">
+                <img id="albumArt" src="assets/images/album-cover.jpg" alt="Album Cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="album-art-placeholder" style="display: none;">🎵</div>
+            </div>
+
+            <!-- Track Info -->
+            <div class="track-info">
+                <div class="track-title" id="trackTitle" data-lang-en="Your Music Title" data-lang-cn="你的音乐标题">Your Music Title</div>
+                <div class="track-artist" id="trackArtist" data-lang-en="Artist Name" data-lang-cn="艺术家名称">Artist Name</div>
+            </div>
+
+            <!-- Audio Wave Visualization -->
+            <div class="audio-wave">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+
+            <!-- Player Controls -->
+            <div class="player-controls">
+                <button class="control-btn" id="prevBtn" title="Previous">⏮</button>
+                <button class="control-btn play-pause" id="playPauseBtn" title="Play/Pause">▶</button>
+                <button class="control-btn" id="nextBtn" title="Next">⏭</button>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="volume-control">
+                <span class="volume-icon" id="volumeIcon">🔊</span>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+            </div>
+
+            <!-- Playlist Info -->
+            <div class="playlist-info">
+                <span data-lang-en="Place your audio file in: thought/music/assets/audio/" 
+                      data-lang-cn="请将音频文件放在: thought/music/assets/audio/">
+                    Place your audio file in: thought/music/assets/audio/
+                </span>
+            </div>
+
+            <!-- Hidden Audio Element -->
+            <audio id="audioPlayer" preload="metadata">
+                <source src="assets/audio/your-music.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <!-- Markdown Content -->
+        <div class="post-traditional-content" data-scroll id="markdown-content">
+            <!-- Content will be loaded from Markdown file -->
+            <div class="loading-message">Loading content...</div>
+        </div>
+    </article>
+
+    <!-- Post Navigation -->
+    <nav class="post-navigation" data-scroll>
+        <a href="index.html" class="nav-back" data-lang-en="← Back to Music" data-lang-cn="← 返回音乐">← Back to Music</a>
+        <a href="music-post5.html" class="nav-next" data-lang-en="Previous Article →" data-lang-cn="上一篇文章 →">Previous Article →</a>
+    </nav>
+
+    <!-- Artistic Footer Element -->
+    <footer class="artistic-footer">
+        <div class="footer-brush">
+            <span class="footer-mark">∿</span>
+        </div>
+    </footer>
+
+    <script src="../../script.js"></script>
+    <script>
+        // Music Player Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('audioPlayer');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            const progress = document.getElementById('progress');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeIcon = document.getElementById('volumeIcon');
+            const musicPlayer = document.getElementById('musicPlayer');
+
+            // Set initial volume
+            audio.volume = volumeSlider.value / 100;
+
+            // Play/Pause functionality
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.innerHTML = '⏸';
+                    musicPlayer.classList.add('playing');
+                } else {
+                    audio.pause();
+                    playPauseBtn.innerHTML = '▶';
+                    musicPlayer.classList.remove('playing');
+                }
+            });
+
+            // Update progress bar
+            audio.addEventListener('timeupdate', () => {
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                progress.style.width = progressPercent + '%';
+                
+                // Update time display
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            });
+
+            // Load metadata
+            audio.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(audio.duration);
+            });
+
+            // Click on progress bar to seek
+            progressBar.addEventListener('click', (e) => {
+                const rect = progressBar.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const percentage = clickX / width;
+                audio.currentTime = percentage * audio.duration;
+            });
+
+            // Volume control
+            volumeSlider.addEventListener('input', (e) => {
+                const volume = e.target.value / 100;
+                audio.volume = volume;
+                
+                // Update icon
+                if (volume === 0) {
+                    volumeIcon.textContent = '🔇';
+                } else if (volume < 0.5) {
+                    volumeIcon.textContent = '🔉';
+                } else {
+                    volumeIcon.textContent = '🔊';
+                }
+            });
+
+            // Previous/Next buttons (placeholder - implement your playlist logic)
+            prevBtn.addEventListener('click', () => {
+                audio.currentTime = 0;
+                audio.play();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                // Implement playlist next functionality here
+                console.log('Next track');
+            });
+
+            // Format time helper
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+                    e.preventDefault();
+                    playPauseBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
