@@ -503,8 +503,11 @@ body {
     height: 100%;
     z-index: 1;
     transition: all 0.5s var(--ease-elegant);
+    background-size: cover;
+    background-position: center;
 }
 
+/* Default gradient backgrounds for cards without images */
 .card-1 .card-background {
     background: linear-gradient(135deg, var(--color-deep-purple), var(--color-lavender));
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
@@ -513,6 +516,34 @@ body {
 .card-2 .card-background {
     background: linear-gradient(135deg, var(--color-warm-orange), var(--color-vivid-pink));
     clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 100%);
+}
+
+/* Image-based backgrounds with overlay gradient */
+.card-background[style*="background-image"] {
+    background-blend-mode: overlay;
+    clip-path: none;
+}
+
+.card-1 .card-background[style*="background-image"]::after,
+.card-2 .card-background[style*="background-image"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.7) 0%, 
+        rgba(167, 139, 250, 0.6) 50%,
+        rgba(236, 72, 153, 0.7) 100%);
+    z-index: 1;
+}
+
+.card-2 .card-background[style*="background-image"]::after {
+    background: linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.7) 0%, 
+        rgba(236, 72, 153, 0.6) 50%,
+        rgba(244, 63, 94, 0.7) 100%);
 }
 
 .featured-card:hover .card-background {

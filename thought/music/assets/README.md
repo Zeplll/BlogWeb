@@ -7,10 +7,16 @@ thought/music/assets/
 ├── audio/          # 音频文件存放位置
 │   └── your-music.mp3
 └── images/         # 图片文件存放位置
-    └── album-cover.jpg
+    ├── album-cover.jpg       # 专辑封面
+    ├── card-1.jpg            # 列表卡片1背景
+    ├── card-2.jpg            # 列表卡片2背景
+    ├── card-3.jpg            # 列表卡片3背景
+    ├── card-4.jpg            # 列表卡片4背景
+    ├── card-5.jpg            # 列表卡片5背景
+    └── card-6.jpg            # 列表卡片6背景
 ```
 
-## 🎵 使用说明
+## 🎵 音频文件使用说明
 
 ### 添加音频文件：
 1. 将你的音乐文件（.mp3, .wav, .ogg等）放入 `audio` 文件夹
@@ -19,10 +25,35 @@ thought/music/assets/
    <source src="assets/audio/your-music.mp3" type="audio/mpeg">
    ```
 
-### 添加专辑封面：
-1. 将专辑图片放入 `images` 文件夹
-2. 建议图片尺寸：400x400px 或更大（正方形）
-3. 支持格式：.jpg, .png, .webp
+## 🖼️ 图片文件使用说明
+
+### 1. 专辑封面（album-cover.jpg）
+- **用途**：音乐播放器页面的专辑封面
+- **位置**：`music-post6.html` 播放器中
+- **建议尺寸**：400x400px（正方形）
+- **文件名**：`album-cover.jpg`
+
+### 2. 列表卡片背景图（card-1.jpg ~ card-6.jpg）
+- **用途**：音乐列表页面 (`index.html`) 的卡片背景图
+- **建议尺寸**：800x600px 或更大
+- **命名规则**：
+  - `card-1.jpg` → music-post1
+  - `card-2.jpg` → music-post2
+  - `card-3.jpg` → music-post3
+  - `card-4.jpg` → music-post4
+  - `card-5.jpg` → music-post5
+  - `card-6.jpg` → music-post6
+
+### 卡片背景效果：
+- 🎨 图片会自动覆盖渐变色背景
+- 🌈 添加半透明渐变遮罩层，确保文字可读
+- ✨ 保持原有的悬停放大效果
+- 📱 自动适配响应式布局
+
+### 如果不使用图片：
+- 删除或不添加对应的图片文件
+- 卡片会自动显示默认的渐变色背景
+- 不会影响页面正常显示
 
 ## 🎨 自定义
 

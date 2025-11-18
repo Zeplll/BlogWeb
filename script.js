@@ -13,11 +13,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimations();
     initNavigationEffects();
-    initCursorEffects();
+    // initCursorEffects(); // 已禁用鼠标跟踪功能
     initParallaxEffects();
     initCardInteractions();
     initLanguageToggle();
     initMarkdownLoader();
+    initClickRippleEffect();
 });
 
 // ========================================
@@ -813,4 +814,129 @@ function parseMarkdown(markdown) {
     }).join('\n');
     
     return html;
+}
+
+// ========================================
+// CLICK RIPPLE EFFECT - 流光溢彩点击效果
+// ========================================
+
+/**
+ * Creates a colorful gradient ripple effect on click
+ * 鼠标点击页面空白处时显示流光溢彩的渐变效果（抽象色彩扩散）
+ */
+function initClickRippleEffect() {
+    // Add CSS styles for the ripple effect
+    if (!document.getElementById('click-ripple-styles')) {
+        const style = document.createElement('style');
+        style.id = 'click-ripple-styles';
+        style.textContent = `
+            .click-ripple {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+            }
+            
+            .color-burst {
+                position: absolute;
+                opacity: 0;
+                animation: color-burst 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+                filter: blur(12px);
+                mix-blend-mode: screen;
+            }
+            
+            @keyframes color-burst {
+                0% {
+                    transform: translate(0, 0) scale(0.05);
+                    opacity: 0.9;
+                }
+                40% {
+                    opacity: 0.6;
+                }
+                100% {
+                    transform: translate(var(--tx), var(--ty)) scale(1);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Array of vibrant colors
+    const colors = [
+        '#6366f1', // 深紫
+        '#ec4899', // 粉红
+        '#f59e0b', // 橙色
+        '#14b8a6', // 青色
+        '#a78bfa', // 薰衣草
+        '#f43f5e', // 玫红
+        '#8b5cf6', // 紫色
+        '#06b6d4', // 天蓝
+        '#f97316', // 橙红
+        '#10b981'  // 绿色
+    ];
+    
+    // Listen for clicks on the document
+    document.addEventListener('click', (e) => {
+        // Check if clicked on an interactive element
+        const isInteractive = e.target.closest('a, button, input, textarea, select, .featured-card, .nav-back, .nav-next, .lang-toggle, .star-link');
+        
+        // Only create ripple on non-interactive areas
+        if (!isInteractive) {
+            createColorBurst(e.clientX, e.clientY);
+        }
+    });
+    
+    function createColorBurst(x, y) {
+        const container = document.createElement('div');
+        container.className = 'click-ripple';
+        container.style.left = x + 'px';
+        container.style.top = y + 'px';
+        
+        // Create abstract color bursts (cloud-like)
+        const burstCount = 6;
+        
+        for (let i = 0; i < burstCount; i++) {
+            const burst = document.createElement('div');
+            burst.className = 'color-burst';
+            
+            const angle = (360 / burstCount) * i + Math.random() * 40;
+            const distance = 15 + Math.random() * 20; // 15-35px - smaller spread
+            const size = 20 + Math.random() * 15; // 20-35px - smaller clouds
+            
+            // Random colors for gradient (lighter, more ethereal)
+            const color1 = colors[Math.floor(Math.random() * colors.length)];
+            const color2 = colors[Math.floor(Math.random() * colors.length)];
+            const color3 = colors[Math.floor(Math.random() * colors.length)];
+            
+            burst.style.width = `${size}px`;
+            burst.style.height = `${size}px`;
+            burst.style.borderRadius = '50%'; // Softer, cloud-like edges
+            
+            // Lighter, more diffused gradients for cloud effect
+            burst.style.background = `
+                radial-gradient(ellipse at 25% 25%, ${color1}cc, transparent 65%),
+                radial-gradient(ellipse at 75% 75%, ${color2}bb, transparent 65%),
+                radial-gradient(circle, ${color3}99, transparent 55%)
+            `;
+            
+            // Calculate trajectory
+            const radians = (angle * Math.PI) / 180;
+            const tx = Math.cos(radians) * distance;
+            const ty = Math.sin(radians) * distance;
+            
+            burst.style.setProperty('--tx', `${tx}px`);
+            burst.style.setProperty('--ty', `${ty}px`);
+            burst.style.animationDelay = `${i * 0.04}s`;
+            
+            container.appendChild(burst);
+        }
+        
+        document.body.appendChild(container);
+        
+        // Remove after animation completes
+        setTimeout(() => {
+            container.remove();
+        }, 1800);
+    }
 }
