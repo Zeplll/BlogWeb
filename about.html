@@ -4,7 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sketch/Handwritten Style for About Page */
+        /*.page-about {
+            background: #fdfcf9;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 3px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 3px);
+            min-height: 100vh;
+        }*/
+        .page-about {
+            min-height: 100vh;
+            background: url("assets/asuka.jpeg") no-repeat center center / cover;
+            position: relative;
+        }
+
+        /* 让所有文字在背景上清晰可读 */
+        .page-about * {
+            position: relative;
+            z-index: 2;
+            color: #fff; /* 将所有文字改为白色 */
+        }
+
+        /* 半透明遮罩提高可读性 */
+        .page-about::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.25); /* 可调整透明度 */
+            z-index: 1;
+        }
+
+        .sketch-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        .sketch-title {
+            font-family: 'Caveat', cursive;
+            font-size: 6rem; /* 增大标题字体 */
+            font-weight: 700;
+            margin-bottom: var(--space-xl);
+            text-align: center;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .sketch-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: #fff; /* 改为白色 */
+            border-radius: 2px;
+        }
+
+        .sketch-section {
+            margin-bottom: var(--space-xl);
+            position: relative;
+        }
+
+        .sketch-heading {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem; /* 增大小标题字体 */
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            position: relative;
+            display: inline-block;
+        }
+
+        .sketch-heading::before {
+            content: '—';
+            margin-right: 10px;
+            color: #fff; /* 改为白色 */
+        }
+
+        .sketch-text {
+            font-family: 'Kalam', cursive;
+            font-size: 1.5rem; /* 增大段落字体 */
+            line-height: 1.9;
+            margin-bottom: var(--space-md);
+            font-weight: 300;
+        }
+
+        .sketch-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-md) 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+
+        .sketch-list-item {
+            font-family: 'Kalam', cursive;
+            font-size: 1.5rem; /* 增大列表项字体 */
+            padding: 10px 20px;
+            border: 2px solid #fff; /* 改为白色 */
+            border-radius: 25px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.2); /* 半透明白色背景 */
+            transition: all 0.2s ease;
+        }
+
+        .sketch-list-item:hover {
+            background: #fff; /* 改为白色 */
+            color: #000; /* 鼠标悬停时文字改为黑色 */
+            transform: rotate(-2deg);
+        }
+
+        .sketch-divider {
+            width: 100%;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, #fff 0, #fff 10px, transparent 10px, transparent 20px); /* 改为白色 */
+            margin: var(--space-xl) 0;
+            opacity: 0.3;
+        }
+
+        .sketch-image {
+            text-align: center;
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+        }
+
+        .sketch-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sketch-footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            padding: var(--space-lg) 0;
+        }
+
+        .sketch-footer-mark {
+            font-family: 'Caveat', cursive;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        /* Navigation Styles */
+        .constellation-nav {
+            position: fixed;
+            top: var(--space-md);
+            right: var(--space-md);
+            z-index: 1000;
+        }
+
+        .star-link {
+            color: #fff; /* 将导航栏文字改为白色 */
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .star-link:hover {
+            color: #ccc; /* 鼠标悬停时变为浅灰色 */
+        }
+
+        .star-symbol {
+            font-size: 5rem;
+            margin-right: 5px;
+        }
+
+        .star-label {
+            display: inline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sketch-title {
+                font-size: 4.5rem; /* 调整小屏幕标题字体 */
+            }
+
+            .sketch-heading {
+                font-size: 2.5rem; /* 调整小屏幕小标题字体 */
+            }
+
+            .sketch-text {
+                font-size: 1.3rem; /* 调整小屏幕段落字体 */
+            }
+
+            .sketch-list-item {
+                font-size: 1.2rem; /* 调整小屏幕列表项字体 */
+            }
+        }
+    </style>
 </head>
 <body class="page-about">
     
@@ -18,99 +215,76 @@
         </div>
     </nav>
 
-    <!-- About Hero: Personality as Layout -->
-    <section class="about-hero">
-        <div class="identity-canvas">
-            <h1 class="about-title" data-scroll>
-                <span class="title-fragment fragment-1">Where</span>
-                <span class="title-fragment fragment-2">Is</span>
-                <span class="title-fragment fragment-3">My</span>
-                <span class="title-fragment fragment-1">Mind?</span>
-            </h1>
-            
-            <div class="identity-shape"></div>
-        </div>
-    </section>
+    <!-- Sketch Style Content -->
+    <div class="sketch-container">
+        
+        <!-- Title -->
+        <h1 class="sketch-title" data-scroll>Where Is My Mind?</h1>
 
-    <!-- About Content: Asymmetric Narrative -->
-    <section class="about-narrative">
-        <div class="narrative-grid">
-            
-            <div class="narrative-block block-1" data-scroll>
-                <div class="block-decoration deco-1"></div>
-                <div class="block-text">
-                    <h2 class="narrative-heading">A Digital Observer</h2>
-                    <p>I exist at the intersection of code and consciousness, where algorithms meet aesthetics. My work explores the boundaries between structure and chaos, finding beauty in the unexpected patterns that emerge.</p>
-                </div>
-            </div>
-            
-            <div class="portrait-element" data-scroll>
-                <div class="portrait-frame">
-                    <div class="portrait-abstract"></div>
-                </div>
-                <span class="portrait-caption"></span>
-            </div>
-            
-            <div class="narrative-block block-2" data-scroll>
-                <div class="block-decoration deco-2"></div>
-                <div class="block-text">
-                    <h2 class="narrative-heading">The Creative Process</h2>
-                    <p>Every project begins with curiosity and ends with discovery. I believe in the power of constraints to fuel creativity, in the elegance of simplicity, and in the courage to break conventions when necessary.</p>
-                </div>
-            </div>
-            
-            <div class="philosophy-circle" data-scroll>
-                <div class="/////////circle-content">
-                    <span class="circle-text">Create</span>
-                    <span class="circle-text">Explore</span>
-                    <span class="circle-text">Iterate</span>
-                </div>
-            </div>
-            
-            <div class="narrative-block block-3" data-scroll>
-                <div class="block-decoration deco-3"></div>
-                <div class="block-text">
-                    <h2 class="narrative-heading">Beyond the Screen</h2>
-                    <p>When not immersed in digital creation, I find inspiration in the analog world—in architecture, in nature's fractals, in the negative space of minimalist art. Everything feeds back into the work.</p>
-                </div>
-            </div>
-            
-            <div class="skills-constellation" data-scroll>
-                <h3 class="skills-title">My List</h3>
-                <ul class="skills-list">
-                    <li class="skill-item">Reading</li>
-                    <li class="skill-item">Football</li>
-                    <li class="skill-item">FC Bayern München</li>
-                    <li class="skill-item">Games</li>
-                    <li class="skill-item">Music</li>
-                    <li class="skill-item">Rock N Roll</li>
-                    <li class="skill-item">Movies</li>
-                    <li class="skill-item">Overwatch</li>
-                    <li class="skill-item">Guitar</li>
-                </ul>
-            </div>
-            
-        </div>
-    </section>
+        <!-- Section 1 -->
+        <section class="sketch-section" data-scroll>
+            <h2 class="sketch-heading">A Digital Observer</h2>
+            <p class="sketch-text">
+                I exist at the intersection of code and consciousness, where algorithms meet aesthetics. 
+                My work explores the boundaries between structure and chaos, finding beauty in the 
+                unexpected patterns that emerge.
+            </p>
+        </section>
 
-    <!-- Contact Element -->
-    <section class="contact-art" data-scroll>
-        <div class="contact-container">
-            <h2 class="contact-title">Let's Connect</h2>
-            <div class="contact-links">
-                <span class="contact-item">hello@contemplations.digital</span>
-                <span class="contact-divider">∿</span>
-                <span class="contact-item">@unordered_thoughts</span>
-            </div>
-        </div>
-    </section>
+        <div class="sketch-divider"></div>
 
-    <!-- Artistic Footer Element -->
-    <footer class="artistic-footer">
-        <div class="footer-brush">
-            <span class="footer-mark">∿</span>
-        </div>
-    </footer>
+        <!-- Section 2 -->
+        <section class="sketch-section" data-scroll>
+            <h2 class="sketch-heading">The Creative Process</h2>
+            <p class="sketch-text">
+                Every project begins with curiosity and ends with discovery. I believe in the power 
+                of constraints to fuel creativity, in the elegance of simplicity, and in the courage 
+                to break conventions when necessary.
+            </p>
+        </section>
+
+        <div class="sketch-divider"></div>
+
+        <!-- Section 3 -->
+        <section class="sketch-section" data-scroll>
+            <h2 class="sketch-heading">Beyond the Screen</h2>
+            <p class="sketch-text">
+                When not immersed in digital creation, I find inspiration in the analog world—in 
+                architecture, in nature's fractals, in the negative space of minimalist art. 
+                Everything feeds back into the work.
+            </p>
+        </section>
+
+        <div class="sketch-divider"></div>
+
+        <!-- Skills/Interests List -->
+        <section class="sketch-section" data-scroll>
+            <ul class="sketch-list">   
+                <li class="sketch-list-item">Football</li>
+                <li class="sketch-list-item">FC Bayern München</li>
+                <li class="sketch-list-item">Games</li>
+                <li class="sketch-list-item">Music</li>
+                <li class="sketch-list-item">Reading</li>
+                <li class="sketch-list-item">Rock N Roll</li>
+                <li class="sketch-list-item">Movies</li>
+                <li class="sketch-list-item">Overwatch</li>
+                <li class="sketch-list-item">Guitar</li>
+                <li class="sketch-list-item">Faye Wong</li>
+            </ul>
+        </section>
+
+        <!-- Image Section -->
+        <section class="sketch-image" data-scroll>
+            <img src="assets/about-image.jpg" alt="About Image" 
+                 onerror="this.style.display='none';">
+        </section>
+
+        <!-- Footer -->
+        <footer class="sketch-footer">
+            <span class="sketch-footer-mark">∿</span>
+        </footer>
+
+    </div>
 
     <script src="script.js" defer></script>
 </body>

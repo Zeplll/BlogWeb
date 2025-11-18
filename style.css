@@ -87,12 +87,6 @@ body {
     background-size: 100% 100%, 100% 100%, 100% 100%;
 }
 
-/* Selection Styling */
-::selection {
-    background-color: var(--color-vivid-pink);
-    color: var(--color-off-white);
-}
-
 /* ========================================
    CONSTELLATION NAVIGATION (Artistic)
    ======================================== */

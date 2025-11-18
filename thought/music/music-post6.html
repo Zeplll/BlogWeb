@@ -270,6 +270,76 @@
             0%, 100% { transform: scaleY(0.5); }
             50% { transform: scaleY(1); }
         }
+
+        /* Featured Image Styles */
+        .post-featured-image {
+            width: 100%;
+            max-width: 1000px;
+            margin: var(--space-lg) auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-featured-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .post-featured-image:hover img {
+            transform: scale(1.02);
+        }
+
+        /* Image Gallery Styles */
+        .image-gallery {
+            max-width: 1000px;
+            margin: var(--space-xl) auto;
+        }
+
+        .gallery-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-deep-purple);
+            margin-bottom: var(--space-md);
+            text-align: center;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: var(--space-sm);
+            background: rgba(99, 102, 241, 0.05);
+            text-align: center;
+            font-size: var(--font-size-sm);
+            color: var(--color-charcoal);
+        }
     </style>
 </head>
 <body class="page-post">
@@ -310,18 +380,24 @@
             </div>
         </header>
 
+        <!-- Featured Image Section (Optional) -->
+        <div class="post-featured-image" data-scroll style="display: none;">
+            <img src="assets/images/featured-image.jpg" alt="Featured Image" 
+                 onerror="this.parentElement.style.display='none';">
+        </div>
+
         <!-- Music Player -->
         <div class="music-player-container" id="musicPlayer" data-scroll>
             <!-- Album Art -->
             <div class="album-art">
-                <img id="albumArt" src="assets/images/album-cover.jpg" alt="Album Cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img id="albumArt" src="assets/images/Fable.jpg" alt="Album Cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="album-art-placeholder" style="display: none;">🎵</div>
             </div>
 
             <!-- Track Info -->
             <div class="track-info">
-                <div class="track-title" id="trackTitle" data-lang-en="Your Music Title" data-lang-cn="你的音乐标题">Your Music Title</div>
-                <div class="track-artist" id="trackArtist" data-lang-en="Artist Name" data-lang-cn="艺术家名称">Artist Name</div>
+                <div class="track-title" id="trackTitle" data-lang-en="Flower of Paradise" data-lang-cn="彼岸花">Your Music Title</div>
+                <div class="track-artist" id="trackArtist" data-lang-en="Faye Wong" data-lang-cn="王菲">Artist Name</div>
             </div>
 
             <!-- Audio Wave Visualization -->
@@ -357,20 +433,12 @@
             <!-- Volume Control -->
             <div class="volume-control">
                 <span class="volume-icon" id="volumeIcon">🔊</span>
-                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
-            </div>
-
-            <!-- Playlist Info -->
-            <div class="playlist-info">
-                <span data-lang-en="Place your audio file in: thought/music/assets/audio/" 
-                      data-lang-cn="请将音频文件放在: thought/music/assets/audio/">
-                    Place your audio file in: thought/music/assets/audio/
-                </span>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
             </div>
 
             <!-- Hidden Audio Element -->
             <audio id="audioPlayer" preload="metadata">
-                <source src="assets/audio/your-music.mp3" type="audio/mpeg">
+                <source src="assets/audio/flower.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
         </div>
@@ -379,6 +447,33 @@
         <div class="post-traditional-content" data-scroll id="markdown-content">
             <!-- Content will be loaded from Markdown file -->
             <div class="loading-message">Loading content...</div>
+        </div>
+
+        <!-- Image Gallery Section (Optional) -->
+        <div class="image-gallery" data-scroll>
+            <h2 class="gallery-title" data-lang-en="Gallery" data-lang-cn="相册">Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="assets/images/gallery-1.jpg" alt="Gallery Image 1" 
+                         onerror="this.parentElement.style.display='none';">
+                    <div class="gallery-caption" data-lang-en="Image 1" data-lang-cn="图片 1">Image 1</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/images/gallery-2.jpg" alt="Gallery Image 2" 
+                         onerror="this.parentElement.style.display='none';">
+                    <div class="gallery-caption" data-lang-en="Image 2" data-lang-cn="图片 2">Image 2</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/images/gallery-3.jpg" alt="Gallery Image 3" 
+                         onerror="this.parentElement.style.display='none';">
+                    <div class="gallery-caption" data-lang-en="Image 3" data-lang-cn="图片 3">Image 3</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/images/gallery-4.jpg" alt="Gallery Image 4" 
+                         onerror="this.parentElement.style.display='none';">
+                    <div class="gallery-caption" data-lang-en="Image 4" data-lang-cn="图片 4">Image 4</div>
+                </div>
+            </div>
         </div>
     </article>
 
@@ -410,9 +505,77 @@
             const volumeSlider = document.getElementById('volumeSlider');
             const volumeIcon = document.getElementById('volumeIcon');
             const musicPlayer = document.getElementById('musicPlayer');
+            const trackTitle = document.getElementById('trackTitle');
+            const trackArtist = document.getElementById('trackArtist');
 
-            // Set initial volume
-            audio.volume = volumeSlider.value / 100;
+            // Define playlist with bilingual titles
+            const playlist = [
+                {
+                    titleEn: 'The Cambrian Age',
+                    titleCn: '寒武纪',
+                    artistEn: 'Faye Wong',
+                    artistCn: '王菲',
+                    src: 'assets/audio/hanwuji.mp3'
+                },
+                {
+                    titleEn: 'New Tenant',
+                    titleCn: '新房客',
+                    artistEn: 'Faye Wong',
+                    artistCn: '王菲',
+                    src: 'assets/audio/xinfangke.mp3'
+                },
+                {
+                    titleEn: 'Chanel',
+                    titleCn: '香奈儿',
+                    artistEn: 'Faye Wong',
+                    artistCn: '王菲',
+                    src: 'assets/audio/chanel.mp3'
+                },
+                {
+                    titleEn: 'Asura',
+                    titleCn: '阿修罗',
+                    artistEn: 'Faye Wong',
+                    artistCn: '王菲',
+                    src: 'assets/audio/asura.mp3'
+                },
+                {
+                    titleEn: 'Flower of Paradise',
+                    titleCn: '彼岸花',
+                    artistEn: 'Faye Wong',
+                    artistCn: '王菲',
+                    src: 'assets/audio/flower.mp3'
+                }
+            ];
+
+            let currentTrackIndex = 0;
+            let currentLanguage = 'en'; // Default language
+
+            // Set initial language based on localStorage
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+                document.documentElement.lang = currentLanguage;
+            }
+
+            // Ensure English font is loaded when switching back to English
+            function loadFontForLanguage(lang) {
+                const fontLink = document.querySelector('link[href*="fonts.googleapis.com"]');
+                if (lang === 'en' && !fontLink) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap';
+                    document.head.appendChild(link);
+                }
+            }
+
+            // Load track with language support
+            function loadTrack(index) {
+                const track = playlist[index];
+                trackTitle.textContent = currentLanguage === 'en' ? track.titleEn : track.titleCn;
+                trackArtist.textContent = currentLanguage === 'en' ? track.artistEn : track.artistCn;
+                audio.src = track.src;
+                audio.load();
+            }
 
             // Play/Pause functionality
             playPauseBtn.addEventListener('click', () => {
@@ -465,15 +628,48 @@
                 }
             });
 
-            // Previous/Next buttons (placeholder - implement your playlist logic)
+            // Previous button
             prevBtn.addEventListener('click', () => {
-                audio.currentTime = 0;
+                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+                loadTrack(currentTrackIndex);
                 audio.play();
             });
 
+            // Next button
             nextBtn.addEventListener('click', () => {
-                // Implement playlist next functionality here
-                console.log('Next track');
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+            });
+
+            // Load font for the initial language
+            loadFontForLanguage(currentLanguage);
+
+            // Language toggle functionality
+            const langToggle = document.querySelector('.lang-toggle');
+            langToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Save current playback state and time
+                const wasPlaying = !audio.paused;
+                const currentTime = audio.currentTime;
+
+                // Toggle language
+                currentLanguage = currentLanguage === 'en' ? 'cn' : 'en';
+                document.documentElement.lang = currentLanguage;
+                localStorage.setItem('language', currentLanguage); // Save language preference
+
+                // Reload track with updated language
+                loadTrack(currentTrackIndex);
+
+                // Restore playback state and time
+                audio.currentTime = currentTime;
+                if (wasPlaying) {
+                    audio.play();
+                }
+
+                // Load font for the new language
+                loadFontForLanguage(currentLanguage);
             });
 
             // Format time helper
@@ -491,6 +687,9 @@
                     playPauseBtn.click();
                 }
             });
+
+            // Initialize first track
+            loadTrack(currentTrackIndex);
         });
     </script>
 </body>

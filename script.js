@@ -508,45 +508,6 @@ if (document.querySelector('.floating-shapes')) {
 }
 
 // ========================================
-// TEXT SELECTION EFFECT
-// ========================================
-
-/**
- * Adds artistic effects when text is selected
- */
-document.addEventListener('selectionchange', () => {
-    const selection = window.getSelection();
-    if (selection.toString().length > 0) {
-        const range = selection.getRangeAt(0);
-        const rect = range.getBoundingClientRect();
-        
-        // Create highlight effect
-        createSelectionHighlight(rect);
-    }
-});
-
-function createSelectionHighlight(rect) {
-    const highlight = document.querySelector('.selection-highlight');
-    if (highlight) highlight.remove();
-    
-    const div = document.createElement('div');
-    div.className = 'selection-highlight';
-    div.style.position = 'fixed';
-    div.style.left = rect.left + 'px';
-    div.style.top = rect.top + 'px';
-    div.style.width = rect.width + 'px';
-    div.style.height = rect.height + 'px';
-    div.style.border = '2px solid rgba(236, 72, 153, 0.3)';
-    div.style.pointerEvents = 'none';
-    div.style.zIndex = '9999';
-    div.style.animation = 'fadeOut 0.8s ease forwards';
-    
-    document.body.appendChild(div);
-    
-    setTimeout(() => div.remove(), 800);
-}
-
-// ========================================
 // SCROLL PROGRESS INDICATOR
 // ========================================
 
