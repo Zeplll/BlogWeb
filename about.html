@@ -3,289 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+    <title>About | The Digital Gardener</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Sketch/Handwritten Style for About Page */
-        /*.page-about {
-            background: #fdfcf9;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 3px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.02) 2px, rgba(0,0,0,.02) 3px);
-            min-height: 100vh;
-        }*/
-        .page-about {
-            min-height: 100vh;
-            background: url("assets/asuka.jpeg") no-repeat center center / cover;
-            position: relative;
-        }
-
-        /* 让所有文字在背景上清晰可读 */
-        .page-about * {
-            position: relative;
-            z-index: 2;
-            color: #fff; /* 将所有文字改为白色 */
-        }
-
-        /* 半透明遮罩提高可读性 */
-        .page-about::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.25); /* 可调整透明度 */
-            z-index: 1;
-        }
-
-        .sketch-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: var(--space-xl) var(--space-lg);
-        }
-
-        .sketch-title {
-            font-family: 'Caveat', cursive;
-            font-size: 6rem; /* 增大标题字体 */
-            font-weight: 700;
-            margin-bottom: var(--space-xl);
-            text-align: center;
-            position: relative;
-            line-height: 1.2;
-        }
-
-        .sketch-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 4px;
-            background: #fff; /* 改为白色 */
-            border-radius: 2px;
-        }
-
-        .sketch-section {
-            margin-bottom: var(--space-xl);
-            position: relative;
-        }
-
-        .sketch-heading {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem; /* 增大小标题字体 */
-            font-weight: 600;
-            margin-bottom: var(--space-md);
-            position: relative;
-            display: inline-block;
-        }
-
-        .sketch-heading::before {
-            content: '—';
-            margin-right: 10px;
-            color: #fff; /* 改为白色 */
-        }
-
-        .sketch-text {
-            font-family: 'Kalam', cursive;
-            font-size: 1.5rem; /* 增大段落字体 */
-            line-height: 1.9;
-            margin-bottom: var(--space-md);
-            font-weight: 300;
-        }
-
-        .sketch-list {
-            list-style: none;
-            padding: 0;
-            margin: var(--space-md) 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-md);
-        }
-
-        .sketch-list-item {
-            font-family: 'Kalam', cursive;
-            font-size: 1.5rem; /* 增大列表项字体 */
-            padding: 10px 20px;
-            border: 2px solid #fff; /* 改为白色 */
-            border-radius: 25px;
-            position: relative;
-            background: rgba(255, 255, 255, 0.2); /* 半透明白色背景 */
-            transition: all 0.2s ease;
-        }
-
-        .sketch-list-item:hover {
-            background: #fff; /* 改为白色 */
-            color: #000; /* 鼠标悬停时文字改为黑色 */
-            transform: rotate(-2deg);
-        }
-
-        .sketch-divider {
-            width: 100%;
-            height: 2px;
-            background: repeating-linear-gradient(90deg, #fff 0, #fff 10px, transparent 10px, transparent 20px); /* 改为白色 */
-            margin: var(--space-xl) 0;
-            opacity: 0.3;
-        }
-
-        .sketch-image {
-            text-align: center;
-            margin-top: var(--space-xl);
-            padding: var(--space-lg);
-        }
-
-        .sketch-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .sketch-footer {
-            text-align: center;
-            margin-top: var(--space-xl);
-            padding: var(--space-lg) 0;
-        }
-
-        .sketch-footer-mark {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem;
-            opacity: 0.3;
-        }
-
-        /* Navigation Styles */
-        .constellation-nav {
-            position: fixed;
-            top: var(--space-md);
-            right: var(--space-md);
-            z-index: 1000;
-        }
-
-        .star-link {
-            color: #fff; /* 将导航栏文字改为白色 */
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .star-link:hover {
-            color: #ccc; /* 鼠标悬停时变为浅灰色 */
-        }
-
-        .star-symbol {
-            font-size: 5rem;
-            margin-right: 5px;
-        }
-
-        .star-label {
-            display: inline;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sketch-title {
-                font-size: 4.5rem; /* 调整小屏幕标题字体 */
-            }
-
-            .sketch-heading {
-                font-size: 2.5rem; /* 调整小屏幕小标题字体 */
-            }
-
-            .sketch-text {
-                font-size: 1.3rem; /* 调整小屏幕段落字体 */
-            }
-
-            .sketch-list-item {
-                font-size: 1.2rem; /* 调整小屏幕列表项字体 */
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="about_style.css">
 </head>
-<body class="page-about">
-    
-    <!-- Artistic Navigation Constellation -->
-    <nav class="constellation-nav" aria-label="Main Navigation">
-        <div class="constellation-container">
-            <a href="index.html" class="star-link star-home" data-label="Home">
-                <span class="star-symbol">✦</span>
-                <span class="star-label">Home</span>
-            </a>
-        </div>
-    </nav>
+<body class="theme-green">
 
-    <!-- Sketch Style Content -->
-    <div class="sketch-container">
+    <div class="decoration-layer">
         
-        <!-- Title -->
-        <h1 class="sketch-title" data-scroll>Where Is My Mind?</h1>
+        <div class="floral-slot slot-top-left">
+            <img src="assets/images/flower2-removebg-preview.png" alt="Top left floral decoration">
+        </div>
 
-        <!-- Section 1 -->
-        <section class="sketch-section" data-scroll>
-            <h2 class="sketch-heading">A Digital Observer</h2>
-            <p class="sketch-text">
-                I exist at the intersection of code and consciousness, where algorithms meet aesthetics. 
-                My work explores the boundaries between structure and chaos, finding beauty in the 
-                unexpected patterns that emerge.
-            </p>
-        </section>
+        <div class="floral-slot slot-top-right">
+            <img src="assets/images/flower5-removebg-preview.png" alt="Top right floral decoration">
+        </div>
 
-        <div class="sketch-divider"></div>
+        <div class="floral-slot slot-bottom-left">
+            <img src="assets/images/flower1-removebg-preview.png" alt="Bottom left floral decoration">
+        </div>
 
-        <!-- Section 2 -->
-        <section class="sketch-section" data-scroll>
-            <h2 class="sketch-heading">The Creative Process</h2>
-            <p class="sketch-text">
-                Every project begins with curiosity and ends with discovery. I believe in the power 
-                of constraints to fuel creativity, in the elegance of simplicity, and in the courage 
-                to break conventions when necessary.
-            </p>
-        </section>
-
-        <div class="sketch-divider"></div>
-
-        <!-- Section 3 -->
-        <section class="sketch-section" data-scroll>
-            <h2 class="sketch-heading">Beyond the Screen</h2>
-            <p class="sketch-text">
-                When not immersed in digital creation, I find inspiration in the analog world—in 
-                architecture, in nature's fractals, in the negative space of minimalist art. 
-                Everything feeds back into the work.
-            </p>
-        </section>
-
-        <div class="sketch-divider"></div>
-
-        <!-- Skills/Interests List -->
-        <section class="sketch-section" data-scroll>
-            <ul class="sketch-list">   
-                <li class="sketch-list-item">Football</li>
-                <li class="sketch-list-item">FC Bayern München</li>
-                <li class="sketch-list-item">Games</li>
-                <li class="sketch-list-item">Music</li>
-                <li class="sketch-list-item">Reading</li>
-                <li class="sketch-list-item">Rock N Roll</li>
-                <li class="sketch-list-item">Movies</li>
-                <li class="sketch-list-item">Overwatch</li>
-                <li class="sketch-list-item">Guitar</li>
-                <li class="sketch-list-item">Faye Wong</li>
-            </ul>
-        </section>
-
-        <!-- Image Section -->
-        <section class="sketch-image" data-scroll>
-            <img src="assets/about-image.jpg" alt="About Image" 
-                 onerror="this.style.display='none';">
-        </section>
-
-        <!-- Footer -->
-        <footer class="sketch-footer">
-            <span class="sketch-footer-mark">∿</span>
-        </footer>
+        <div class="floral-slot slot-bottom-right">
+            <img src="assets/images/flower3-removebg-preview.png" alt="Bottom right floral decoration">
+        </div>
 
     </div>
+    <nav class="elegant-nav">
+        <a href="index.html" class="nav-brand">HOME</a>
+        <div class="nav-line"></div>
+        <span class="nav-current">ABOUT</span>
+    </nav>
+
+    <main class="content-wrapper">
+        <header class="hero-section fade-in-up">
+            <h1 class="hero-title">
+                <span class="d-block">Organic</span>
+                <span class="d-block indent">Thoughts</span>
+            </h1>
+            <p class="hero-subtitle">
+                Cultivating digital aesthetics in a chaotic world.
+            </p>
+        </header>
+
+        <section class="intro-grid fade-in-up delay-1">
+            <div class="image-container">
+                <img src="assets/images/asuka.jpeg" alt="Profile aesthetic" class="botanical-img">
+                <div class="img-overlay"></div>
+            </div>
+            
+            <div class="text-content">
+                <h2 class="section-heading">The Observer</h2>
+                <p class="body-text">
+                    I exist at the quiet intersection of code and consciousness. Like a gardener pruning a bonsai, I believe in the power of subtraction <span class="highlight"></span>—removing the noise to reveal the structure beneath.
+                </p>
+            </div>
+        </section>
+
+        <section class="interests-section fade-in-up delay-2">
+            <h2 class="section-heading text-center">For Fun</h2>
+            <div class="tags-wrapper">
+                <div class="tag-category">
+                    <span class="category-label"></span>
+                    <div class="tag-list">
+                        <span class="tag">Football</span>
+                        <span class="tag">FC Bayern</span>
+                        <span class="tag">Overwatch</span>
+                    </div>
+                </div>
+                <div class="tag-category">
+                    <span class="category-label"></span>
+                    <div class="tag-list">
+                        <span class="tag">Rock N Roll</span>
+                        <span class="tag">Faye Wong</span>
+                        <span class="tag">Reading</span>
+                    </div>
+                </div>
+                <div class="tag-category">
+                    <span class="category-label"></span>
+                    <div class="tag-list">
+                        <span class="tag">Steam</span>
+                        <span class="tag">Guitar</span>
+                        <span class="tag">Movies</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="elegant-footer fade-in-up delay-3">
+            <p class="footer-quote" style="margin-bottom: 1.5rem; font-size: 1.5rem;">"Keep it green, keep it clean."</p>
+            
+            <div class="nav-hints">
+                <a href="index.html">Home</a> / 
+                <a href="contact.html">Contact</a>/ 
+                <a href="thought/index.html">Thought</a>
+            </div>
+        </footer>
+    </main>
+
+    <div class="bg-leaf-shape shape-1"></div>
+    <div class="bg-leaf-shape shape-2"></div>
 
     <script src="script.js" defer></script>
+
 </body>
 </html>

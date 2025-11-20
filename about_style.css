@@ -1,0 +1,635 @@
+:root {
+    --bg-color: #d1e2d1;
+    --text-primary: #1B3B1A;
+    --text-secondary: #5C7A5C;
+    --accent-color: #D6E6D6;
+    --line-color: #6a996a;
+    /* 新增：花纹的颜色，比文字浅一点，比背景深一点，保持低调 */
+    --floral-stroke: #8FA38F; 
+    
+    --space-sm: 1.5rem;
+    --space-md: 3rem;
+    --space-lg: 6rem;
+    
+    --font-serif: 'Playfair Display', serif;
+    --font-body: 'Cormorant Garamond', serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1.3rem; 
+    font-weight: 500; 
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative; /* 为绝对定位的装饰物提供基准 */
+}
+
+/* === Floral Decorations (新增部分) === */
+.floral-container {
+    position: fixed; /* 固定在屏幕上，不随滚动移动，营造边框感 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 关键：让鼠标可以穿透花纹点击下面的内容 */
+    z-index: 0; /* 放在背景之上，内容之下，或者放在最上层视情况而定 */
+}
+
+.floral-corner {
+    position: absolute;
+    color: var(--floral-stroke); /* SVG 将使用这个颜色 */
+    opacity: 0.4; /* 透明度，让它不抢占视线 */
+    transition: all 0.5s ease;
+}
+
+.floral-corner.top-left {
+    top: -20px;
+    left: -20px;
+    width: 200px; /* 调整花纹大小 */
+    height: auto;
+    transform: rotate(-10deg);
+}
+
+.floral-corner.bottom-right {
+    bottom: -50px;
+    right: -50px;
+    width: 350px; /* 右下角的大花朵 */
+    height: auto;
+    opacity: 0.25; /* 大花朵稍微淡一点 */
+    transform: rotate(15deg);
+}
+
+/* 鼠标悬停在页面某处时，花纹可以微动，增加互动感 */
+body:hover .floral-corner.top-left {
+    transform: rotate(0deg) scale(1.05);
+}
+
+/* ================================== */
+
+/* =========================================
+   预留装饰位样式 (Decoration Slots)
+   ========================================= */
+.decoration-layer {
+    position: fixed; /* 固定在屏幕上，类似相框 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 让鼠标可以穿透装饰层点击下面的链接 */
+    z-index: 10; /* 放在最上层 */
+}
+
+.floral-slot {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* --- 调试辅助线 (正式上线时请删除下面这行) --- */
+    /*border: 2px dashed rgba(27, 59, 26, 0.3); 
+    background: rgba(255, 255, 255, 0.1); /* 淡淡的背景方便你看清区域 */
+    /* --------------------------------------- */
+}
+
+.floral-slot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.8; /* 让花纹稍微半透明，融合感更好 */
+}
+
+/* 这里的文字只是为了提示你位置，放图片后可以删掉 */
+.placeholder-text {
+    font-size: 0.8rem;
+    color: #5C7A5C;
+    text-align: center;
+}
+
+/* --- 具体位置定义 --- */
+
+/* 1. 左上角：预留较大的区域，适合垂吊植物 */
+.slot-top-left {
+    top: 0;
+    left: 0;
+    width: 700px;  /* 宽度可根据你的图片调整 */
+    height: 300px;
+}
+
+/* 2. 右上角：预留较小区域，适合精致点缀 */
+.slot-top-right {
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 250px;
+}
+
+/* 3. 左下角：预留中等区域 */
+.slot-bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 130px;
+}
+
+/* 4. 右下角：预留最大区域，作为视觉重心 */
+.slot-bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 700px;
+    height: 200px;
+}
+
+/* ========================================= */
+
+/* 背景模糊圆块 (保留之前的，作为更深层的背景) */
+.bg-leaf-shape {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: #E3F0E3;
+    top: -100px;
+    right: -100px;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    background: #E8F1E8;
+    bottom: 0;
+    left: -50px;
+}
+
+/* 容器 */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1; /* 确保文字在花纹上方，如果想让花纹遮住文字，设为 -1 */
+}
+
+/* 导航栏 */
+.elegant-nav {
+    display: flex;
+    align-items: center;
+    padding: 1.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.20em;
+    font-weight: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(198, 211, 198, 0.85); /* 增加一点不透明度 */
+    backdrop-filter: blur(5px);
+}
+
+.nav-brand {
+    text-decoration: none;
+    color: var(--text-primary);
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.nav-brand:hover {
+    opacity: 1;
+}
+
+.nav-line {
+    width: 30px;
+    height: 1px;
+    background-color: var(--text-primary);
+    margin: 0 15px;
+}
+
+.nav-current {
+    color: var(--text-primary);
+}
+
+/* Hero 区域 */
+.hero-section {
+    padding-top: 180px;
+    padding-bottom: var(--space-lg);
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8vw, 7rem);
+    color: var(--text-primary);
+    line-height: 1.1;
+    font-weight: 400;
+}
+
+.d-block {
+    display: block;
+}
+
+.indent {
+    margin-left: 2rem;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.hero-subtitle {
+    margin-top: var(--space-md);
+    max-width: 800px;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    border-left: 2px solid var(--text-secondary);
+    padding-left: 20px;
+}
+
+/* 内容网格 */
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.image-container {
+    position: relative;
+}
+
+.botanical-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px 40px 4px 40px;
+    box-shadow: 20px 20px 0px var(--accent-color);
+    filter: grayscale(20%) contrast(95%);
+}
+
+.text-content {
+    padding-top: var(--space-md);
+}
+
+.section-heading {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    margin-bottom: var(--space-sm);
+    font-weight: 400;
+    position: relative;
+}
+
+.body-text {
+    margin-bottom: 1.5rem;
+    color: #4a5e4a;
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.highlight {
+    border-bottom: 1px solid var(--text-primary);
+    font-style: italic;
+    font-family: var(--font-serif);
+}
+
+/* 兴趣列表 */
+.interests-section {
+    margin-bottom: var(--space-lg);
+    border-top: 1px solid var(--line-color);
+    padding-top: var(--space-lg);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.tags-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-top: var(--space-md);
+}
+
+.tag-category {
+    text-align: center;
+}
+
+.category-label {
+    display: block;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.tag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.tag {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+/* 页脚 */
+.elegant-footer {
+    text-align: center;
+    padding-bottom: var(--space-lg);
+    opacity: 0.6;
+}
+
+.footer-quote {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+/* 简单动画 */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .intro-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .botanical-img {
+        max-width: 100%;
+        box-shadow: 10px 10px 0px var(--accent-color);
+    }
+    
+    .tags-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* 移动端缩小花纹，避免遮挡过多 */
+    .floral-corner.top-left {
+        width: 120px;
+        top: -10px;
+        left: -10px;
+    }
+    .floral-corner.bottom-right {
+        width: 200px;
+        bottom: -30px;
+        right: -30px;
+    }
+}
+
+/* =========================================
+   Contact Page Specific Styles
+   ========================================= */
+
+/* 让 Contact 页面居中显示 */
+.page-contact {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px; /* 避开导航栏 */
+}
+
+.contact-wrapper {
+    width: 100%;
+    max-width: 900px; /* 卡片最大宽度 */
+    padding: 2rem;
+    position: relative;
+    z-index: 5;
+}
+
+/* 信笺卡片主体 */
+.stationery-card {
+    background: rgba(255, 255, 255, 0.7); /* 极淡的半透明白色 */
+    backdrop-filter: blur(10px); /* 毛玻璃质感 */
+    padding: 7rem 6rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 20px 40px rgba(27, 59, 26, 0.05), /* 柔和的绿色阴影 */
+        0 1px 3px rgba(0,0,0,0.05);
+    text-align: center;
+    position: relative;
+}
+
+/* 标题微调 */
+.small-hero {
+    font-size: 3.5rem; /* 比 About 页面标题稍微小一点，更精致 */
+    margin-bottom: 1rem;
+}
+
+.contact-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+}
+
+/* 装饰性分割线 */
+.floral-divider {
+    margin: 3rem 0;
+    position: relative;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-color), transparent);
+}
+
+.floral-divider span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #F7F9F7; /* 与背景色一致，遮挡线条 */
+    padding: 0 15px;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+/* 内容组 */
+.contact-group {
+    margin-bottom: 3rem;
+}
+
+.academic-group {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px dashed var(--line-color); /* 虚线分割，像邮票撕口 */
+}
+
+.group-title {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+.group-desc {
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    color: #5C7A5C;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 链接样式设计 */
+.link-container {
+    margin: 1rem 0;
+}
+
+.elegant-link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* 大号邮箱链接 */
+.big-link {
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--text-secondary);
+    padding-bottom: 2px;
+}
+
+.big-link:hover {
+    color: #3a5a3a;
+    border-bottom-color: transparent;
+    transform: translateY(-2px);
+}
+
+/* 链接下划线动画 */
+.big-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -1px;
+    left: 0;
+    background-color: var(--text-primary);
+    transition: width 0.3s ease;
+}
+
+.big-link:hover::after {
+    width: 100%;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-right: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* 学术链接高亮 */
+.highlight-link {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--accent-color);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: background 0.3s;
+}
+
+.highlight-link:hover {
+    background-color: var(--accent-color);
+    color: #000;
+    text-decoration: none;
+}
+
+.note-text {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* 底部简易导航 */
+.card-footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.nav-hints a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s;
+    font-family: var(--font-sans); /* 底部用无衬线体，保持干净 */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.nav-hints a:hover {
+    color: var(--text-primary);
+}
+
+/* 增加一个新的背景光斑位置 */
+.shape-3 {
+    width: 500px;
+    height: 500px;
+    background: #F0F5F0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+    z-index: -2;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .stationery-card {
+        padding: 2rem 1.5rem;
+    }
+    .small-hero {
+        font-size: 2.5rem;
+    }
+    .big-link {
+        font-size: 1.1rem; /* 手机上邮箱太长需要缩小 */
+        word-break: break-all;
+    }
+}
